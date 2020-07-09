@@ -1,6 +1,7 @@
-let toggle = false;
 // grid.js creates a grid that changes direction after passing fft threshold.
 // Author: Juan Eduardo Flores
+
+let toggle = false;
 let xdir = 1;
 let tsnap = 0;
 let psnap = 0;
