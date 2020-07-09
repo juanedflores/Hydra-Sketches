@@ -1,5 +1,5 @@
 // mountains.js
-// author : Juan Eduardo Flores
+// Juan Eduardo Flores
 
 let toggle = false;
 let xdir = 1;
