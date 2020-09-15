@@ -119,54 +119,37 @@ size = 0.1;
 GLOBAL = () => {
   st = GET_STATE(0);
   if (st) {
-    size = HIGHEST(0, 0.1 * a.fft[0], 0.1);
-    squaresize = a.fft[0]; // START WITH THIS IN THE BEGINNING
+    size = HIGHEST(3, 0.1 * a.fft[0], 0.1); // ADD THIS LATER
+    squaresize = a.fft[0]; // START WITH THIS IN THE BEGINNING // ADJUST THE RANGE
     squaresize = Math.random() * 0.2; // ADD THIS LATER; SPORADIC
   }
   return 0;
 };
 
-// osc(20, 0.1, () => HIGH(1, 1, 0)).out();
-
-// shape(2, 0.03, 0.001)
-//   .scrollY(() => CHANGE_DIR(0, time / 8), 0)
-//   .rotate(({ time }) => ((time / 8) % 360) * dir)
-//   .add(
-//     shape(2, 0.03, 0.001)
-//       .scrollY(() => CHANGE_DIR(0, time / 8), 0)
-//       .rotate(({ time }) => ((time / 8) % 360) * -dir)
-//   )
-//   .shift(0.5, 0.5, 0.5, 0.5)
-//   .out(o1);
-
-// shape(4, 0.1, 0.001)
-//   .rotate(({ time }) => (time % 360) * dir, 0)
-//   .out(o2);
-
 solid(() => GLOBAL())
   .add(
     shape(4, size, 0.001)
-      .add(shape(4, size, 0.001).scrollX(() => -squaresize))
-      .add(shape(4, size, 0.001).scrollX(() => squaresize))
-      .add(shape(4, size, 0.001).scrollY(() => -squaresize))
-      .add(shape(4, size, 0.001).scrollY(() => squaresize))
+      .add(shape(4, () => size, 0.001).scrollX(() => -squaresize))
+      .add(shape(4, () => size, 0.001).scrollX(() => squaresize))
+      .add(shape(4, () => size, 0.001).scrollY(() => -squaresize))
+      .add(shape(4, () => size, 0.001).scrollY(() => squaresize))
       .add(
-        shape(4, size, 0.001)
+        shape(4, () => size, 0.001)
           .scrollX(() => -squaresize)
           .scrollY(() => -squaresize)
       )
       .add(
-        shape(4, size, 0.001)
+        shape(4, () => size, 0.001)
           .scrollX(() => squaresize)
           .scrollY(() => -squaresize)
       )
       .add(
-        shape(4, size, 0.001)
+        shape(4, () => size, 0.001)
           .scrollY(() => squaresize)
           .scrollX(() => -squaresize)
       )
       .add(
-        shape(4, size, 0.001)
+        shape(4, () => size, 0.001)
           .scrollY(() => squaresize)
           .scrollX(() => squaresize)
       )
@@ -179,7 +162,9 @@ solid(() => GLOBAL())
         () => HIGHEST(3, 0, 1)
       )
       .brightness(({ time }) => Math.sin(time / 8)) // ADD THIS LATER
-    // .rotate(() => HIGHEST(3, (time / 4) % 360, 0))
+      .rotate(() => HIGHEST(3, (time / 4) % 360, 0))
   )
-  .rotate(({ time }) => ((time / 8) % 360) * dir)
+  .rotate(({ time }) => (time / 8) % 360)
+  // .rotate(({ time }) => (((time / 8) % 360) * dir))
+  // .rotate(({ time }) => (((time / 8) % 360) * dir * a.fft[0]) / 4)
   .out();
